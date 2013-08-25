@@ -1,29 +1,26 @@
 # dmenu version
-VERSION = 4.5-tip
+VERSION = 4.5-patched
 
 # paths
 PREFIX = /usr/local
 MANPREFIX = ${PREFIX}/share/man
 
-X11INC = /usr/X11R6/include
-X11LIB = /usr/X11R6/lib
-
 # Xinerama, comment if you don't want it
-XINERAMALIBS  = -lXinerama
-XINERAMAFLAGS = -DXINERAMA
+XINERAMA_LIBS  = -lXinerama
+XINERAMA_CPPFLAGS = -DXINERAMA
 
 # Xft, comment if you don't want it
-XFTINC = -I/usr/include/freetype2
-XFTLIBS  = -lXft -lXrender -lfreetype -lz -lfontconfig
+XFT_INCS = -I/usr/include/freetype2
+XFT_LIBS  = -lXft -lXrender -lfreetype -lz -lfontconfig
 
 # includes and libs
-INCS = -I${X11INC} ${XFTINC}
-LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${XFTLIBS}
+INCS = ${XFT_INCS}
+LIBS = -lX11 ${XINERAMA_LIBS} ${XFT_LIBS}
 
 # flags
-CPPFLAGS = -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
+CPPFLAGS = -D_BSD_SOURCE -D_POSIX_C_SOURCE=2 -DVERSION=\"${VERSION}\" ${XINERAMA_CPPFLAGS}
 #CFLAGS   = -g -std=c99 -pedantic -Wall -O0 ${INCS} ${CPPFLAGS}
-CFLAGS   = -std=c99 -pedantic -Wall -Os ${INCS} ${CPPFLAGS}
+CFLAGS   = -std=c99 -pedantic -Wall -O3 -march=native ${INCS} ${CPPFLAGS}
 LDFLAGS  = -s ${LIBS}
 
 # compiler and linker
